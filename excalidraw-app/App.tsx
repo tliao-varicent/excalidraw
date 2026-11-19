@@ -33,7 +33,15 @@ import {
   isDevEnv,
 } from "@excalidraw/common";
 import polyfill from "@excalidraw/excalidraw/polyfill";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { loadFromBlob } from "@excalidraw/excalidraw/data/blob";
 import { t } from "@excalidraw/excalidraw/i18n";
 
@@ -153,6 +161,8 @@ import { AppSidebar } from "./components/AppSidebar";
 import type { CollabAPI } from "./collab/Collab";
 
 polyfill();
+
+const AgentBridge = lazy(() => import("./components/AgentBridge"));
 
 window.EXCALIDRAW_THROTTLE_RENDER = true;
 
@@ -1076,6 +1086,12 @@ const ExcalidrawWrapper = () => {
         </OverwriteConfirmDialog>
         <AppFooter onChange={() => excalidrawAPI?.refresh()} />
         {excalidrawAPI && <AIComponents excalidrawAPI={excalidrawAPI} />}
+        {excalidrawAPI &&
+          (isDevEnv() || import.meta.env.VITE_APP_AGENT_BRIDGE === "true") && (
+            <Suspense fallback={null}>
+              <AgentBridge excalidrawAPI={excalidrawAPI} />
+            </Suspense>
+          )}
 
         <TTDDialogTrigger />
         {isCollaborating && isOffline && (

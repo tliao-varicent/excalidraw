@@ -38,6 +38,12 @@ interface ImportMetaEnv {
 
   VITE_APP_GIT_SHA: string;
 
+  // Enable the WebSocket bridge used by tools/excalidraw-mcp outside dev mode
+  VITE_APP_AGENT_BRIDGE: string;
+
+  // Port of the tools/excalidraw-mcp WebSocket bridge (default 3730)
+  VITE_APP_AGENT_BRIDGE_PORT: string;
+
   MODE: string;
 
   DEV: string;

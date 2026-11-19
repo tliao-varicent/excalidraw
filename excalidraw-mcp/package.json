@@ -1,0 +1,22 @@
+{
+  "name": "excalidraw-mcp",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/index.js",
+    "test:typecheck": "tsc -p . --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "ws": "8.17.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.10",
+    "@types/ws": "8.18.2",
+    "typescript": "5.9.3"
+  }
+}

@@ -4,6 +4,7 @@
   "packageManager": "yarn@1.22.22",
   "workspaces": [
     "excalidraw-app",
+    "excalidraw-mcp",
     "packages/*",
     "examples/*"
   ],
@@ -73,7 +74,7 @@
     "test:app": "vitest",
     "test:code": "eslint --max-warnings=0 --ext .js,.ts,.tsx .",
     "test:other": "yarn prettier --list-different",
-    "test:typecheck": "tsc",
+    "test:typecheck": "tsc && yarn --cwd ./excalidraw-mcp test:typecheck",
     "test:update": "yarn test:app --update --watch=false",
     "test": "yarn test:app",
     "test:coverage": "vitest --coverage",

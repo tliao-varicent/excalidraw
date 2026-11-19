@@ -1,0 +1,16 @@
+---
+description: Drawing diagrams on the live local Excalidraw canvas via the excalidraw MCP server
+alwaysApply: false
+---
+
+# Drawing with the excalidraw MCP
+
+The `excalidraw` MCP tools draw on the local app at http://localhost:3729 (start it with `yarn start`). If a tool reports no tab connected, ask the user to open that URL.
+
+- Call `get_scene` first when editing an existing drawing; use `clear_canvas` only when asked to start over.
+- Use `add_elements` with skeleton elements and give every element a short explicit `id` (`api`, `db`, `api-db`).
+- Put text inside shapes with `label: { text }` instead of separate text elements.
+- Connect shapes with arrows using `start: { id }` and `end: { id }`. Create the arrow in the same `add_elements` call as both shapes so the binding resolves; the arrow's `x`/`y` can be the start shape's edge.
+- Lay shapes out on a grid: around 200x80 boxes, 120px gaps between columns, 100px between rows. Flow left to right or top to bottom.
+- Use color sparingly to group related parts (for example `backgroundColor: "#a5d8ff"` for services, `"#b2f2bb"` for data stores, `"#ffec99"` for external systems).
+- After large changes, call `export_png` to check the result visually and fix overlaps with `update_elements`.
