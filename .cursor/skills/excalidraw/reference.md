@@ -66,7 +66,7 @@ Two-way vertical link:
 
 Optional arrow label: `"label": { "text": "publishes", "fontSize": 14, "fontFamily": 6, "strokeColor": "#868e96" }`.
 
-## Update example (`yarn excalidraw update changes.json`)
+## Update example (`excalidraw update changes.json`)
 
 ```json
 [{ "id": "v1-caller", "backgroundColor": "#d0ebff" }, { "id": "v1-a1", "strokeStyle": "dashed" }]
