@@ -38,6 +38,15 @@ interface ImportMetaEnv {
 
   VITE_APP_GIT_SHA: string;
 
+  // "true" hides all hosted-service UI (collab, share, Excalidraw+, socials)
+  VITE_APP_LOCAL_MODE: string;
+
+  // "true" hides share, live collaboration and shareable links
+  VITE_APP_DISABLE_COLLAB: string;
+
+  // "true" hides Excalidraw+, sign in/up, social and excalidraw.com links
+  VITE_APP_DISABLE_EXTERNAL_LINKS: string;
+
   // Enable the WebSocket bridge used by tools/excalidraw-mcp outside dev mode
   VITE_APP_AGENT_BRIDGE: string;
 

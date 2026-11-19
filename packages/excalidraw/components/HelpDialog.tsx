@@ -18,7 +18,7 @@ import "./HelpDialog.scss";
 
 import type { JSX } from "react";
 
-const Header = () => (
+const Header = ({ socialLinks }: { socialLinks: boolean }) => (
   <div className="HelpDialog__header">
     <a
       className="HelpDialog__btn"
@@ -29,33 +29,37 @@ const Header = () => (
       <div className="HelpDialog__link-icon">{ExternalLinkIcon}</div>
       {t("helpDialog.documentation")}
     </a>
-    <a
-      className="HelpDialog__btn"
-      href="https://plus.excalidraw.com/blog"
-      target="_blank"
-      rel="noopener"
-    >
-      <div className="HelpDialog__link-icon">{ExternalLinkIcon}</div>
-      {t("helpDialog.blog")}
-    </a>
-    <a
-      className="HelpDialog__btn"
-      href="https://github.com/excalidraw/excalidraw/issues"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <div className="HelpDialog__link-icon">{GithubIcon}</div>
-      {t("helpDialog.github")}
-    </a>
-    <a
-      className="HelpDialog__btn"
-      href="https://youtube.com/@excalidraw"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <div className="HelpDialog__link-icon">{youtubeIcon}</div>
-      YouTube
-    </a>
+    {socialLinks && (
+      <>
+        <a
+          className="HelpDialog__btn"
+          href="https://plus.excalidraw.com/blog"
+          target="_blank"
+          rel="noopener"
+        >
+          <div className="HelpDialog__link-icon">{ExternalLinkIcon}</div>
+          {t("helpDialog.blog")}
+        </a>
+        <a
+          className="HelpDialog__btn"
+          href="https://github.com/excalidraw/excalidraw/issues"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="HelpDialog__link-icon">{GithubIcon}</div>
+          {t("helpDialog.github")}
+        </a>
+        <a
+          className="HelpDialog__btn"
+          href="https://youtube.com/@excalidraw"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <div className="HelpDialog__link-icon">{youtubeIcon}</div>
+          YouTube
+        </a>
+      </>
+    )}
   </div>
 );
 
@@ -125,7 +129,13 @@ const ShortcutKey = (props: { children: React.ReactNode }) => (
   <kbd className="HelpDialog__key" {...props} />
 );
 
-export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
+export const HelpDialog = ({
+  onClose,
+  socialLinks = true,
+}: {
+  onClose?: () => void;
+  socialLinks?: boolean;
+}) => {
   const actionManager = useExcalidrawActionManager();
   const handleClose = React.useCallback(() => {
     if (onClose) {
@@ -140,7 +150,7 @@ export const HelpDialog = ({ onClose }: { onClose?: () => void }) => {
         title={t("helpDialog.title")}
         className={"HelpDialog"}
       >
-        <Header />
+        <Header socialLinks={socialLinks} />
         <Section title={t("helpDialog.shortcuts")}>
           <ShortcutIsland
             className="HelpDialog__island--tools"

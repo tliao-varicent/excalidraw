@@ -399,6 +399,12 @@ const areEqual = (prevProps: ExcalidrawProps, nextProps: ExcalidrawProps) => {
         );
       });
     }
+    if (key === "helpDialog") {
+      return (
+        prevUIOptions.helpDialog?.socialLinks ===
+        nextUIOptions.helpDialog?.socialLinks
+      );
+    }
     return prevUIOptions[key] === nextUIOptions[key];
   });
 

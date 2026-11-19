@@ -59,3 +59,16 @@ export const COOKIES = {
 export const isExcalidrawPlusSignedUser = document.cookie.includes(
   COOKIES.AUTH_STATE_COOKIE,
 );
+
+const isEnvFlagOn = (value: string | undefined) => value === "true";
+
+/** turns on every `VITE_APP_DISABLE_*` flag below */
+export const isLocalMode = isEnvFlagOn(import.meta.env.VITE_APP_LOCAL_MODE);
+
+/** hides share, live collaboration and shareable links */
+export const isCollabFeatureDisabled =
+  isLocalMode || isEnvFlagOn(import.meta.env.VITE_APP_DISABLE_COLLAB);
+
+/** hides Excalidraw+, sign in/up, social and other excalidraw.com links */
+export const areExternalLinksDisabled =
+  isLocalMode || isEnvFlagOn(import.meta.env.VITE_APP_DISABLE_EXTERNAL_LINKS);

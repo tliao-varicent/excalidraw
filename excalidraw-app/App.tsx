@@ -96,7 +96,9 @@ import {
   appJotaiStore,
 } from "./app-jotai";
 import {
+  areExternalLinksDisabled,
   FIREBASE_STORAGE_PREFIXES,
+  isCollabFeatureDisabled,
   isExcalidrawPlusSignedUser,
   STORAGE_KEYS,
   SYNC_BROWSER_TABS_TIMEOUT,
@@ -387,7 +389,7 @@ const ExcalidrawWrapper = () => {
   const excalidrawAPI = useExcalidrawAPI();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const isCollabDisabled = isRunningInIframe();
+  const isCollabDisabled = isRunningInIframe() || isCollabFeatureDisabled;
 
   const { editorTheme, appTheme, setAppTheme } = useHandleAppTheme();
 
@@ -928,7 +930,7 @@ const ExcalidrawWrapper = () => {
   const ExcalidrawPlusCommand = {
     label: "Excalidraw+",
     category: DEFAULT_CATEGORIES.links,
-    predicate: true,
+    predicate: !areExternalLinksDisabled,
     icon: <div style={{ width: 14 }}>{ExcalLogo}</div>,
     keywords: ["plus", "cloud", "server"],
     perform: () => {
@@ -943,7 +945,7 @@ const ExcalidrawWrapper = () => {
   const ExcalidrawPlusAppCommand = {
     label: "Sign up",
     category: DEFAULT_CATEGORIES.links,
-    predicate: true,
+    predicate: !areExternalLinksDisabled,
     icon: <div style={{ width: 14 }}>{ExcalLogo}</div>,
     keywords: [
       "excalidraw",
@@ -983,33 +985,37 @@ const ExcalidrawWrapper = () => {
           canvasActions: {
             toggleTheme: true,
             export: {
-              onExportToBackend,
-              renderCustomUI: excalidrawAPI
-                ? (elements, appState, files) => {
-                    return (
-                      <ExportToExcalidrawPlus
-                        elements={elements}
-                        appState={appState}
-                        files={files}
-                        name={excalidrawAPI.getName()}
-                        onError={(error) => {
-                          excalidrawAPI?.updateScene({
-                            appState: {
-                              errorMessage: error.message,
-                            },
-                          });
-                        }}
-                        onSuccess={() => {
-                          excalidrawAPI.updateScene({
-                            appState: { openDialog: null },
-                          });
-                        }}
-                      />
-                    );
-                  }
-                : undefined,
+              onExportToBackend: isCollabDisabled
+                ? undefined
+                : onExportToBackend,
+              renderCustomUI:
+                excalidrawAPI && !areExternalLinksDisabled
+                  ? (elements, appState, files) => {
+                      return (
+                        <ExportToExcalidrawPlus
+                          elements={elements}
+                          appState={appState}
+                          files={files}
+                          name={excalidrawAPI.getName()}
+                          onError={(error) => {
+                            excalidrawAPI?.updateScene({
+                              appState: {
+                                errorMessage: error.message,
+                              },
+                            });
+                          }}
+                          onSuccess={() => {
+                            excalidrawAPI.updateScene({
+                              appState: { openDialog: null },
+                            });
+                          }}
+                        />
+                      );
+                    }
+                  : undefined,
             },
           },
+          helpDialog: { socialLinks: !areExternalLinksDisabled },
         }}
         langCode={langCode}
         renderCustomStats={renderCustomStats}
@@ -1067,7 +1073,7 @@ const ExcalidrawWrapper = () => {
         <OverwriteConfirmDialog>
           <OverwriteConfirmDialog.Actions.ExportToImage />
           <OverwriteConfirmDialog.Actions.SaveToDisk />
-          {excalidrawAPI && (
+          {excalidrawAPI && !areExternalLinksDisabled && (
             <OverwriteConfirmDialog.Action
               title={t("overwriteConfirm.action.excalidrawPlus.title")}
               actionLabel={t("overwriteConfirm.action.excalidrawPlus.button")}
@@ -1115,22 +1121,24 @@ const ExcalidrawWrapper = () => {
           <Collab excalidrawAPI={excalidrawAPI} />
         )}
 
-        <ShareDialog
-          collabAPI={collabAPI}
-          onExportToBackend={async () => {
-            if (excalidrawAPI) {
-              try {
-                await onExportToBackend(
-                  excalidrawAPI.getSceneElements(),
-                  excalidrawAPI.getAppState(),
-                  excalidrawAPI.getFiles(),
-                );
-              } catch (error: any) {
-                setErrorMessage(error.message);
+        {!isCollabDisabled && (
+          <ShareDialog
+            collabAPI={collabAPI}
+            onExportToBackend={async () => {
+              if (excalidrawAPI) {
+                try {
+                  await onExportToBackend(
+                    excalidrawAPI.getSceneElements(),
+                    excalidrawAPI.getAppState(),
+                    excalidrawAPI.getFiles(),
+                  );
+                } catch (error: any) {
+                  setErrorMessage(error.message);
+                }
               }
-            }
-          }}
-        />
+            }}
+          />
+        )}
 
         <AppSidebar />
 
@@ -1208,7 +1216,7 @@ const ExcalidrawWrapper = () => {
               label: "GitHub",
               icon: GithubIcon,
               category: DEFAULT_CATEGORIES.links,
-              predicate: true,
+              predicate: !areExternalLinksDisabled,
               keywords: [
                 "issues",
                 "bugs",
@@ -1230,7 +1238,7 @@ const ExcalidrawWrapper = () => {
               label: t("labels.followUs"),
               icon: XBrandIcon,
               category: DEFAULT_CATEGORIES.links,
-              predicate: true,
+              predicate: !areExternalLinksDisabled,
               keywords: ["twitter", "contact", "social", "community"],
               perform: () => {
                 window.open(
@@ -1243,7 +1251,7 @@ const ExcalidrawWrapper = () => {
             {
               label: t("labels.discordChat"),
               category: DEFAULT_CATEGORIES.links,
-              predicate: true,
+              predicate: !areExternalLinksDisabled,
               icon: DiscordIcon,
               keywords: [
                 "chat",
@@ -1269,7 +1277,7 @@ const ExcalidrawWrapper = () => {
               label: "YouTube",
               icon: youtubeIcon,
               category: DEFAULT_CATEGORIES.links,
-              predicate: true,
+              predicate: !areExternalLinksDisabled,
               keywords: ["features", "tutorials", "howto", "help", "community"],
               perform: () => {
                 window.open(
@@ -1292,7 +1300,7 @@ const ExcalidrawWrapper = () => {
               label: t("overwriteConfirm.action.excalidrawPlus.button"),
               category: DEFAULT_CATEGORIES.export,
               icon: exportToPlus,
-              predicate: true,
+              predicate: !areExternalLinksDisabled,
               keywords: ["plus", "export", "save", "backup"],
               perform: () => {
                 if (excalidrawAPI) {

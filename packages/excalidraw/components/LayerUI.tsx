@@ -597,6 +597,7 @@ const LayerUI = ({
         )}
       {appState.openDialog?.name === "help" && (
         <HelpDialog
+          socialLinks={UIOptions.helpDialog?.socialLinks ?? true}
           onClose={() => {
             setAppState({ openDialog: null });
           }}

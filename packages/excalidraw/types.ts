@@ -1199,6 +1199,13 @@ export type UIOptions = Partial<{
   tools: {
     image: boolean;
   };
+  helpDialog: {
+    /**
+     * show the blog, issue tracker and YouTube links in the help dialog header
+     * @default true
+     */
+    socialLinks?: boolean;
+  };
   /**
    * Optionally control the editor form factor and desktop UI mode from the host app.
    * If not provided, we will take care of it internally.

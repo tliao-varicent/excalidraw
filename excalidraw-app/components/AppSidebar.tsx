@@ -6,6 +6,8 @@ import {
 import { LinkButton } from "@excalidraw/excalidraw/components/LinkButton";
 import { useUIAppState } from "@excalidraw/excalidraw/context/ui-appState";
 
+import { areExternalLinksDisabled } from "../app_constants";
+
 import "./AppSidebar.scss";
 
 type SidebarPromoCopyProps = {
@@ -67,6 +69,10 @@ const SidebarPromoCopy = (props: SidebarPromoCopyProps) => {
 
 export const AppSidebar = () => {
   const { theme, openSidebar } = useUIAppState();
+
+  if (areExternalLinksDisabled) {
+    return <DefaultSidebar />;
+  }
 
   return (
     <DefaultSidebar>
