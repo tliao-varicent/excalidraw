@@ -27,3 +27,6 @@ dev-dist
 html
 meta*.json
 .claude
+
+# local Excalidraw agent diagrams
+diagrams/

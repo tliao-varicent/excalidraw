@@ -28,7 +28,7 @@ export type AgentBridgeResponse =
   | { id: string; ok: true; result: unknown }
   | { id: string; ok: false; error: string };
 
-const RECONNECT_MS = 2000;
+const RECONNECT_MS = 500;
 
 const summarize = (elements: readonly ExcalidrawElement[]) =>
   getNonDeletedElements(elements).map((el) => ({
@@ -148,11 +148,38 @@ const AgentBridge = ({
     let timer: number | undefined;
     let disposed = false;
 
+    let lastActiveAt = ownerWindow.document.hasFocus() ? Date.now() : 0;
+
     const respond = (response: AgentBridgeResponse) =>
       socket?.send(JSON.stringify(response));
 
+    const reportActivity = () => {
+      if (socket?.readyState === ownerWindow.WebSocket.OPEN) {
+        socket.send(JSON.stringify({ type: "activity", lastActiveAt }));
+      }
+    };
+
+    const markActive = () => {
+      lastActiveAt = Date.now();
+      reportActivity();
+    };
+
+    const onVisibilityChange = () => {
+      if (ownerWindow.document.visibilityState === "visible") {
+        markActive();
+      }
+    };
+
+    ownerWindow.addEventListener("focus", markActive);
+    ownerWindow.addEventListener("pointerdown", markActive);
+    ownerWindow.document.addEventListener(
+      "visibilitychange",
+      onVisibilityChange,
+    );
+
     const connect = () => {
       socket = new ownerWindow.WebSocket(`ws://localhost:${port}`);
+      socket.onopen = reportActivity;
       socket.onmessage = async (event) => {
         const request: AgentBridgeRequest = JSON.parse(event.data);
         try {
@@ -176,6 +203,12 @@ const AgentBridge = ({
     connect();
     return () => {
       disposed = true;
+      ownerWindow.removeEventListener("focus", markActive);
+      ownerWindow.removeEventListener("pointerdown", markActive);
+      ownerWindow.document.removeEventListener(
+        "visibilitychange",
+        onVisibilityChange,
+      );
       ownerWindow.clearTimeout(timer);
       socket?.close();
     };

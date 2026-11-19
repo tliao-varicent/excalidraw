@@ -1,0 +1,528 @@
+[
+  {
+    "id": "title",
+    "type": "text",
+    "x": 0,
+    "y": -170,
+    "text": "Async job payload: v1 → v2",
+    "fontSize": 36,
+    "fontFamily": 6,
+    "strokeColor": "#1e1e1e"
+  },
+  {
+    "id": "subtitle",
+    "type": "text",
+    "x": 0,
+    "y": -118,
+    "text": "From ad-hoc flat params read by key name, to a typed message with a feature-flag snapshot",
+    "fontSize": 18,
+    "fontFamily": 6,
+    "strokeColor": "#868e96"
+  },
+  {
+    "id": "v1-head",
+    "type": "text",
+    "x": 0,
+    "y": -46,
+    "text": "v1 · ad hoc",
+    "fontSize": 22,
+    "fontFamily": 6,
+    "strokeColor": "#495057"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v1-caller",
+    "type": "rectangle",
+    "x": 0,
+    "y": 0,
+    "width": 520,
+    "height": 280,
+    "strokeColor": "#1971c2",
+    "backgroundColor": "#e7f5ff",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-caller-title",
+    "type": "text",
+    "x": 24,
+    "y": 18,
+    "text": "Caller: payload built ad hoc",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#1971c2"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v1-caller-code",
+    "type": "rectangle",
+    "x": 20,
+    "y": 60,
+    "width": 480,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-caller-code-text",
+    "type": "text",
+    "x": 42,
+    "y": 78,
+    "text": "{\n  cluster: 'sp-cluster-foo'\n  taskDefinition: 'sp-foo-service'\n  isFlagAOn: isTreatmentOn(FLAG_A)\n  isFlagBOn: isTreatmentOn(FLAG_B)\n  flagBConfig: getTreatmentWithConfig(FLAG_B)\n  fileId\n}",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v1-payload",
+    "type": "rectangle",
+    "x": 640,
+    "y": 0,
+    "width": 360,
+    "height": 280,
+    "strokeColor": "#2f9e44",
+    "backgroundColor": "#ebfbee",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-payload-title",
+    "type": "text",
+    "x": 664,
+    "y": 18,
+    "text": "Payload: flat",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#2f9e44"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v1-payload-code",
+    "type": "rectangle",
+    "x": 660,
+    "y": 60,
+    "width": 320,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-payload-code-text",
+    "type": "text",
+    "x": 682,
+    "y": 78,
+    "text": "{\n  fileId\n  isFlagAOn: true\n  isFlagBOn: false\n  flagBConfig: '{ max: 5 }'\n}",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v1-reader",
+    "type": "rectangle",
+    "x": 1120,
+    "y": 0,
+    "width": 440,
+    "height": 280,
+    "strokeColor": "#9c36b5",
+    "backgroundColor": "#f8f0fc",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-reader-title",
+    "type": "text",
+    "x": 1144,
+    "y": 18,
+    "text": "Reader: parses keys by name",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#9c36b5"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v1-reader-code",
+    "type": "rectangle",
+    "x": 1140,
+    "y": 60,
+    "width": 400,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v1-reader-code-text",
+    "type": "text",
+    "x": 1162,
+    "y": 78,
+    "text": "params = JSON.parse(TASK_PARAMS)\nconst { fileId, isFlagAOn } = params\nif (isFlagAOn) { ... }",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v1-a1",
+    "type": "arrow",
+    "x": 520,
+    "y": 115,
+    "points": [
+      [0, 0],
+      [120, 0]
+    ],
+    "strokeColor": "#495057",
+    "start": {
+      "id": "v1-caller"
+    },
+    "end": {
+      "id": "v1-payload"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v1-a2",
+    "type": "arrow",
+    "x": 1000,
+    "y": 115,
+    "points": [
+      [0, 0],
+      [120, 0]
+    ],
+    "strokeColor": "#495057",
+    "start": {
+      "id": "v1-payload"
+    },
+    "end": {
+      "id": "v1-reader"
+    }
+  },
+  {
+    "id": "v2-head",
+    "type": "text",
+    "x": 0,
+    "y": 354,
+    "text": "v2 · typed message + flag snapshot",
+    "fontSize": 22,
+    "fontFamily": 6,
+    "strokeColor": "#495057"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-caller",
+    "type": "rectangle",
+    "x": 0,
+    "y": 400,
+    "width": 520,
+    "height": 420,
+    "strokeColor": "#1971c2",
+    "backgroundColor": "#e7f5ff",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-caller-title",
+    "type": "text",
+    "x": 24,
+    "y": 418,
+    "text": "Caller",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#1971c2"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v2-caller-code",
+    "type": "rectangle",
+    "x": 20,
+    "y": 460,
+    "width": 480,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-caller-code-text",
+    "type": "text",
+    "x": 42,
+    "y": 478,
+    "text": "{\n  spec\n  input<T>: // typed by registry\n  cluster: registry[eventType]\n  taskDefinition: registry[eventType]\n}",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-payload",
+    "type": "rectangle",
+    "x": 640,
+    "y": 400,
+    "width": 360,
+    "height": 280,
+    "strokeColor": "#2f9e44",
+    "backgroundColor": "#ebfbee",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-payload-title",
+    "type": "text",
+    "x": 664,
+    "y": 418,
+    "text": "Payload: message",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#2f9e44"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v2-payload-code",
+    "type": "rectangle",
+    "x": 660,
+    "y": 460,
+    "width": 320,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-payload-code-text",
+    "type": "text",
+    "x": 682,
+    "y": 478,
+    "text": "{\n  spec: { version, eventType }\n  input: { fileId }\n  featureFlagSnapshot: {\n    FLAG_A: on\n    FLAG_B: off + config\n  }\n}",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-reader",
+    "type": "rectangle",
+    "x": 1120,
+    "y": 400,
+    "width": 440,
+    "height": 280,
+    "strokeColor": "#9c36b5",
+    "backgroundColor": "#f8f0fc",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-reader-title",
+    "type": "text",
+    "x": 1144,
+    "y": 418,
+    "text": "Reader: asks the snapshot",
+    "fontSize": 20,
+    "fontFamily": 6,
+    "strokeColor": "#9c36b5"
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 1,
+    "fillStyle": "solid",
+    "id": "v2-reader-code",
+    "type": "rectangle",
+    "x": 1140,
+    "y": 460,
+    "width": 400,
+    "height": 196,
+    "strokeColor": "#343a40",
+    "backgroundColor": "#212529",
+    "roundness": {
+      "type": 3
+    }
+  },
+  {
+    "id": "v2-reader-code-text",
+    "type": "text",
+    "x": 1162,
+    "y": 478,
+    "text": "msg = reader.getAsyncJobMessage()\nff = new SnapshotEvaluator(msg)\nif (ff.isTreatmentOn(FLAG_A)) { ... }",
+    "fontFamily": 3,
+    "fontSize": 16,
+    "strokeColor": "#f1f3f5",
+    "roughness": 0
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "split",
+    "type": "rectangle",
+    "x": 40,
+    "y": 720,
+    "width": 200,
+    "height": 80,
+    "strokeColor": "#e8590c",
+    "backgroundColor": "#fff4e6",
+    "roundness": {
+      "type": 3
+    },
+    "label": {
+      "text": "Split.io\ntreatments",
+      "fontSize": 18,
+      "fontFamily": 6,
+      "strokeColor": "#d9480f"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "registry",
+    "type": "rectangle",
+    "x": 280,
+    "y": 720,
+    "width": 200,
+    "height": 80,
+    "strokeColor": "#e8590c",
+    "backgroundColor": "#fff4e6",
+    "roundness": {
+      "type": 3
+    },
+    "label": {
+      "text": "Job registry\nflags, env vars",
+      "fontSize": 18,
+      "fontFamily": 6,
+      "strokeColor": "#d9480f"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-split-link",
+    "type": "arrow",
+    "x": 140,
+    "y": 720,
+    "points": [
+      [0, 0],
+      [0, -60]
+    ],
+    "strokeColor": "#e8590c",
+    "startArrowhead": "arrow",
+    "endArrowhead": "arrow",
+    "start": {
+      "id": "split"
+    },
+    "end": {
+      "id": "v2-caller-code"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-registry-link",
+    "type": "arrow",
+    "x": 380,
+    "y": 720,
+    "points": [
+      [0, 0],
+      [0, -60]
+    ],
+    "strokeColor": "#e8590c",
+    "startArrowhead": "arrow",
+    "endArrowhead": "arrow",
+    "start": {
+      "id": "registry"
+    },
+    "end": {
+      "id": "v2-caller-code"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-a1",
+    "type": "arrow",
+    "x": 520,
+    "y": 530,
+    "points": [
+      [0, 0],
+      [120, 0]
+    ],
+    "strokeColor": "#495057",
+    "start": {
+      "id": "v2-caller"
+    },
+    "end": {
+      "id": "v2-payload"
+    }
+  },
+  {
+    "roughness": 0,
+    "strokeWidth": 2,
+    "fillStyle": "solid",
+    "id": "v2-a2",
+    "type": "arrow",
+    "x": 1000,
+    "y": 530,
+    "points": [
+      [0, 0],
+      [120, 0]
+    ],
+    "strokeColor": "#495057",
+    "start": {
+      "id": "v2-payload"
+    },
+    "end": {
+      "id": "v2-reader"
+    }
+  }
+]

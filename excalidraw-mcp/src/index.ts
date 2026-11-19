@@ -1,76 +1,11 @@
-import { randomUUID } from "node:crypto";
-
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { WebSocketServer, WebSocket } from "ws";
 import { z } from "zod";
 
-const PORT = Number(process.env.EXCALIDRAW_BRIDGE_PORT || 3730);
-const REQUEST_TIMEOUT_MS = 15000;
+import { BRIDGE_PORT, startBridge } from "./bridge.js";
 
-type Pending = {
-  resolve: (value: unknown) => void;
-  reject: (error: Error) => void;
-  timer: NodeJS.Timeout;
-};
-
-const pending = new Map<string, Pending>();
-let browser: WebSocket | null = null;
-
-const wss = new WebSocketServer({ host: "127.0.0.1", port: PORT });
-
-wss.on("connection", (socket) => {
-  // the most recently opened tab wins
-  browser?.close();
-  browser = socket;
-  socket.on("message", (raw) => {
-    let msg: { id?: string; ok?: boolean; result?: unknown; error?: string };
-    try {
-      msg = JSON.parse(raw.toString());
-    } catch {
-      return;
-    }
-    const entry = msg.id && pending.get(msg.id);
-    if (!entry) {
-      return;
-    }
-    pending.delete(msg.id!);
-    clearTimeout(entry.timer);
-    if (msg.ok) {
-      entry.resolve(msg.result);
-    } else {
-      entry.reject(new Error(msg.error || "Browser bridge error"));
-    }
-  });
-  socket.on("close", () => {
-    if (browser === socket) {
-      browser = null;
-    }
-  });
-});
-
-wss.on("error", (error) => {
-  console.error(`[excalidraw-mcp] WebSocket server error: ${error.message}`);
-});
-
-const send = (op: string, payload: unknown = {}): Promise<any> =>
-  new Promise((resolve, reject) => {
-    if (!browser || browser.readyState !== WebSocket.OPEN) {
-      reject(
-        new Error(
-          `No Excalidraw tab connected on ws://localhost:${PORT}. Open the local app (yarn start, http://localhost:3729) and retry.`,
-        ),
-      );
-      return;
-    }
-    const id = randomUUID();
-    const timer = setTimeout(() => {
-      pending.delete(id);
-      reject(new Error(`Timed out waiting for browser response to "${op}"`));
-    }, REQUEST_TIMEOUT_MS);
-    pending.set(id, { resolve, reject, timer });
-    browser.send(JSON.stringify({ id, op, payload }));
-  });
+const bridge = await startBridge();
+const send = bridge.send;
 
 const textResult = (value: unknown) => ({
   content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }],
@@ -195,4 +130,6 @@ server.registerTool(
 );
 
 await server.connect(new StdioServerTransport());
-console.error(`[excalidraw-mcp] ready, bridge on ws://127.0.0.1:${PORT}`);
+console.error(
+  `[excalidraw-mcp] ready, bridge on ws://127.0.0.1:${BRIDGE_PORT}`,
+);

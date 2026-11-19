@@ -1,0 +1,28 @@
+[
+  { "id": "title", "type": "text", "x": 0, "y": -100, "text": "Request flow",
+    "fontSize": 36, "fontFamily": 6, "strokeColor": "#1e1e1e" },
+  { "id": "subtitle", "type": "text", "x": 0, "y": -50, "text": "Client calls the API, which reads from the database",
+    "fontSize": 18, "fontFamily": 6, "strokeColor": "#868e96" },
+
+  { "id": "client", "type": "rectangle", "x": 0, "y": 0, "width": 200, "height": 80,
+    "strokeColor": "#1971c2", "backgroundColor": "#e7f5ff",
+    "roughness": 0, "strokeWidth": 2, "fillStyle": "solid", "roundness": { "type": 3 },
+    "label": { "text": "Client", "fontSize": 20, "fontFamily": 6, "strokeColor": "#1971c2" } },
+  { "id": "api", "type": "rectangle", "x": 320, "y": 0, "width": 200, "height": 80,
+    "strokeColor": "#2f9e44", "backgroundColor": "#ebfbee",
+    "roughness": 0, "strokeWidth": 2, "fillStyle": "solid", "roundness": { "type": 3 },
+    "label": { "text": "API", "fontSize": 20, "fontFamily": 6, "strokeColor": "#2f9e44" } },
+  { "id": "db", "type": "ellipse", "x": 640, "y": 0, "width": 200, "height": 80,
+    "strokeColor": "#6741d9", "backgroundColor": "#f3f0ff",
+    "roughness": 0, "strokeWidth": 2, "fillStyle": "solid",
+    "label": { "text": "Database", "fontSize": 20, "fontFamily": 6, "strokeColor": "#6741d9" } },
+
+  { "id": "client-api", "type": "arrow", "x": 200, "y": 40, "points": [[0, 0], [120, 0]],
+    "start": { "id": "client" }, "end": { "id": "api" },
+    "strokeColor": "#495057", "roughness": 0, "strokeWidth": 2,
+    "label": { "text": "HTTP", "fontSize": 14, "fontFamily": 6, "strokeColor": "#868e96" } },
+  { "id": "api-db", "type": "arrow", "x": 520, "y": 40, "points": [[0, 0], [120, 0]],
+    "start": { "id": "api" }, "end": { "id": "db" },
+    "strokeColor": "#495057", "roughness": 0, "strokeWidth": 2,
+    "label": { "text": "SQL", "fontSize": 14, "fontFamily": 6, "strokeColor": "#868e96" } }
+]
